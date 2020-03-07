@@ -2,6 +2,7 @@ package infrastructure
 
 import (
 	"database/sql"
+	"log"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/kazu1029/goCleanSample/interfaces/iRepository"
@@ -12,11 +13,12 @@ type SqlHandler struct {
 }
 
 func NewSqlHandler() iRepository.SqlHandler {
-	conn, err := sql.Open("mysql", "root:@tcp(db:3306)/sample")
+	conn, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/sample")
 	if err != nil {
 		panic(err.Error)
 	}
 
+	log.Printf("conn: %v\n", conn)
 	sqlHandler := new(SqlHandler)
 	sqlHandler.Conn = conn
 	return sqlHandler
