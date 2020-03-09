@@ -1,13 +1,24 @@
 package usecase
 
-import "github.com/kazu1029/goCleanSample/domain"
+import (
+	"github.com/go-playground/validator"
+	"github.com/kazu1029/goCleanSample/domain"
+	"github.com/kazu1029/goCleanSample/interfaces/controllers/request"
+)
 
 type UserInteractor struct {
 	Repo UserRepository
 }
 
-func (interactor *UserInteractor) Add(u domain.User) (err error) {
-	_, err = interactor.Repo.Store(u)
+func (interactor *UserInteractor) Add(u *request.User) (err error) {
+	user := domain.NewUser(u.NickName, u.Email)
+	validate := validator.New()
+	err = validate.Struct(user)
+	if err != nil {
+		return
+	}
+
+	_, err = interactor.Repo.Store(user)
 	return
 }
 

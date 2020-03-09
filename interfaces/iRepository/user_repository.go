@@ -6,10 +6,10 @@ type UserRepository struct {
 	SqlHandler
 }
 
-func (repo *UserRepository) Store(u domain.User) (id int, err error) {
+func (repo *UserRepository) Store(u *domain.User) (id int, err error) {
 	result, err := repo.Execute(
-		"INSERT INTO users (first_name, last_name, nick_name, email) VALUES (?,?,?,?)",
-		u.FirstName, u.LastName, u.NickName, u.Email,
+		"INSERT INTO users (nick_name, email) VALUES (?,?)",
+		u.NickName, u.Email,
 	)
 	if err != nil {
 		return
@@ -26,7 +26,7 @@ func (repo *UserRepository) Store(u domain.User) (id int, err error) {
 
 func (repo *UserRepository) FindById(identifier int) (user domain.User, err error) {
 	row, err := repo.Query(
-		"SELECT id, first_name, last_name, nick_name, email FROM users WHERE id = ?",
+		"SELECT id, nick_name, email FROM users WHERE id = ?",
 		identifier,
 	)
 	defer row.Close()
@@ -34,14 +34,14 @@ func (repo *UserRepository) FindById(identifier int) (user domain.User, err erro
 		return
 	}
 
-	if err = row.Scan(&user.ID, &user.FirstName, &user.LastName, &user.NickName, &user.Email); err != nil {
+	if err = row.Scan(&user.ID, &user.NickName, &user.Email); err != nil {
 		return
 	}
 	return
 }
 
 func (repo *UserRepository) FindAll() (users []domain.User, err error) {
-	rows, err := repo.Query("SELECT id, first_name, last_name, nick_name, email FROM users")
+	rows, err := repo.Query("SELECT id, nick_name, email FROM users")
 	defer rows.Close()
 	if err != nil {
 		return
@@ -49,7 +49,7 @@ func (repo *UserRepository) FindAll() (users []domain.User, err error) {
 
 	for rows.Next() {
 		var user domain.User
-		if err := rows.Scan(&user.ID, &user.FirstName, &user.LastName, &user.NickName, &user.Email); err != nil {
+		if err := rows.Scan(&user.ID, &user.NickName, &user.Email); err != nil {
 			continue
 		}
 		users = append(users, user)

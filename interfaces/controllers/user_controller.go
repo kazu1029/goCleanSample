@@ -4,7 +4,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kazu1029/goCleanSample/domain"
+	"github.com/kazu1029/goCleanSample/interfaces/controllers/request"
 	"github.com/kazu1029/goCleanSample/interfaces/iRepository"
 	"github.com/kazu1029/goCleanSample/usecase"
 )
@@ -24,9 +24,10 @@ func NewUserController(sqlHandler iRepository.SqlHandler) *UserController {
 }
 
 func (controller *UserController) Create(c Context) {
-	u := domain.User{}
+	u := request.User{}
 	c.Bind(&u)
-	err := controller.Interactor.Add(u)
+
+	err := controller.Interactor.Add(&u)
 	if err != nil {
 		c.JSON(500, err.Error())
 		return

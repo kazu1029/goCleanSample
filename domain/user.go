@@ -1,18 +1,14 @@
 package domain
 
 type User struct {
-	ID        int
-	FirstName string
-	LastName  string
-	NickName  string
-	Email     string
+	ID       int
+	NickName string `validate:"required,gte=3,lte=20"`
+	Email    string `validate:"required,email"`
 }
 
-func NewUser(firstName, lastName, nickName, email string) *User {
+func NewUser(nickName, email string) *User {
 	return &User{
-		FirstName: firstName,
-		LastName:  lastName,
-		NickName:  nickName,
-		Email:     email,
+		NickName: nickName,
+		Email:    email,
 	}
 }
