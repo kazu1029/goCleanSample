@@ -7,8 +7,9 @@ type Event struct {
 	Description string `validate:"required,gte=8,lte=1000"`
 }
 
-func NewEvent(title, description string) *Event {
+func NewEvent(user_id int, title, description string) *Event {
 	return &Event{
+		UserID:      user_id,
 		Title:       title,
 		Description: description,
 	}

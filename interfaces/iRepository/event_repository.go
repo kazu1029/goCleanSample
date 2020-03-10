@@ -40,7 +40,7 @@ func (repo *EventRepository) FindById(identifier int) (event domain.Event, err e
 	return
 }
 
-func (repo *EventRepository) FindAll() (events []domain.Events, err error) {
+func (repo *EventRepository) FindAll() (events []domain.Event, err error) {
 	rows, err := repo.Query("SELECT id, user_id, title, description FROM events")
 	defer rows.Close()
 	if err != nil {
