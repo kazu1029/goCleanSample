@@ -16,6 +16,7 @@ func init() {
 	router.POST("/users", func(c *gin.Context) { userController.Create(c) })
 	router.GET("/users", func(c *gin.Context) { userController.Index(c) })
 	router.GET("/users/:id", func(c *gin.Context) { userController.Show(c) })
+	router.GET("/users/:id/events", func(c *gin.Context) { eventController.IndexByUserID() })
 
 	router.POST("/events", func(c *gin.Context) { eventController.Create(c) })
 	router.GET("/events", func(c *gin.Context) { eventController.Index(c) })

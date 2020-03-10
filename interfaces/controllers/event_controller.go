@@ -46,10 +46,20 @@ func (controller *EventController) Index(c Context) {
 
 func (controller *EventController) Show(c Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	event, err := controller.Interactor.EventById(id)
+	event, err := controller.Interactor.EventByID(id)
 	if err != nil {
 		c.JSON(500, err.Error())
 		return
 	}
 	c.JSON(200, event)
+}
+
+func (controller *EventController) IndexByUserID(c Context) {
+	user_id, _ := strconv.Atoi(c.Param("id"))
+	events, err := controller.Interactor.EventsByUserID(user_id)
+	if err != nil {
+		c.JSON(500, err.Error())
+		return
+	}
+	c.JSON(200, events)
 }

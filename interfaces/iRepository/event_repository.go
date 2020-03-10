@@ -24,7 +24,7 @@ func (repo *EventRepository) Store(e *domain.Event) (id int, err error) {
 	return
 }
 
-func (repo *EventRepository) FindById(identifier int) (event domain.Event, err error) {
+func (repo *EventRepository) FindByID(identifier int) (event domain.Event, err error) {
 	row, err := repo.Query(
 		"SELECT id, user_id, title, description FROM events WHERE id = ?",
 		identifier,
@@ -42,6 +42,24 @@ func (repo *EventRepository) FindById(identifier int) (event domain.Event, err e
 
 func (repo *EventRepository) FindAll() (events []domain.Event, err error) {
 	rows, err := repo.Query("SELECT id, user_id, title, description FROM events")
+	defer rows.Close()
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		var event domain.Event
+		if err := rows.Scan(&event.ID, &event.UserID, &event.Title, &event.Description); err != nil {
+			continue
+		}
+		events = append(events, event)
+	}
+
+	return
+}
+
+func (repo *EventRepository) FindAllByUserID(user_id int) (events []domain.Event, err error) {
+	rows, err := repo.Query("SELECT id, user_id, title, description FROM events WHERE user_id = ?", user_id)
 	defer rows.Close()
 	if err != nil {
 		return
