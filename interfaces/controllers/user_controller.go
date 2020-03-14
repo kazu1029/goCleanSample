@@ -46,7 +46,7 @@ func (controller *UserController) Index(c Context) {
 
 func (controller *UserController) Show(c Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	user, err := controller.Interactor.UserById(id)
+	user, err := controller.Interactor.UserByID(id)
 	if err != nil {
 		c.JSON(500, err.Error())
 		return

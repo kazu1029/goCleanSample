@@ -28,7 +28,7 @@ func (interactor *EventInteractor) Events() (events []domain.Event, err error) {
 }
 
 func (interactor *EventInteractor) EventByID(identifier int) (event domain.Event, err error) {
-	event, err = interactor.Repo.FindById(identifier)
+	event, err = interactor.Repo.FindByID(identifier)
 	return
 }
 

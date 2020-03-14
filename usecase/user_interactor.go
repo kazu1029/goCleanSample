@@ -27,7 +27,7 @@ func (interactor *UserInteractor) Users() (users []domain.User, err error) {
 	return
 }
 
-func (interactor *UserInteractor) UserById(identifier int) (user domain.User, err error) {
-	user, err = interactor.Repo.FindById(identifier)
+func (interactor *UserInteractor) UserByID(identifier int) (user domain.User, err error) {
+	user, err = interactor.Repo.FindByID(identifier)
 	return
 }
